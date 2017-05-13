@@ -49,7 +49,7 @@ public class EmployeeService {
 			EmployeeBrief temp = new EmployeeBrief();
 			temp.setName(employees.get(i).getName());
 			temp.setNumber(employees.get(i).getNumber());
-			temp.setSex(employees.get(i).getSex());
+			temp.setGender(employees.get(i).getGender());
 			
 			employeeBriefs.add(i, temp);			
 		}
@@ -70,7 +70,7 @@ public class EmployeeService {
 			EmployeeBrief temp = new EmployeeBrief();
 			temp.setName(employees.get(i).getName());
 			temp.setNumber(employees.get(i).getNumber());
-			temp.setSex(employees.get(i).getSex());
+			temp.setGender(employees.get(i).getGender());
 			
 			employeeBriefs.add(i, temp);			
 		}
@@ -91,7 +91,7 @@ public class EmployeeService {
 			EmployeeBrief temp = new EmployeeBrief();
 			temp.setName(employees.get(i).getName());
 			temp.setNumber(employees.get(i).getNumber());
-			temp.setSex(employees.get(i).getSex());
+			temp.setGender(employees.get(i).getGender());
 			
 			employeeBriefs.add(i, temp);			
 		}

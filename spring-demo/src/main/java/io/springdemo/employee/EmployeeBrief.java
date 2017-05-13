@@ -4,17 +4,17 @@ public class EmployeeBrief {
 	
 	private String name;
 	private String number;
-	private String sex;
+	private String gender;
 	
 	public EmployeeBrief() {
 		
 	}
 	
-	public EmployeeBrief(String name, String number, String sex) {
+	public EmployeeBrief(String name, String number, String gender) {
 		super();
 		this.name = name;
 		this.number = number;
-		this.sex = sex;
+		this.gender = gender;
 	}
 	
 	public String getName() {
@@ -29,11 +29,11 @@ public class EmployeeBrief {
 	public void setNumber(String number) {
 		this.number = number;
 	}
-	public String getSex() {
-		return sex;
+	public String getGender() {
+		return gender;
 	}
-	public void setSex(String sex) {
-		this.sex = sex;
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	
 	

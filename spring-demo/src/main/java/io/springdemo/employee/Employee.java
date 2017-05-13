@@ -23,7 +23,7 @@ public class Employee {
 	
 	@Id
 	private String number;
-	private String sex;
+	private String gender;
 	private String cellphone;
 	private String address;
 	private int age;
@@ -52,11 +52,11 @@ public class Employee {
 		
 	}	
 	
-	public Employee(String name, String number, String sex, String cellphone, String address, int age) {
+	public Employee(String name, String number, String gender, String cellphone, String address, int age) {
 		super();
 		this.name = name;
 		this.number = number;
-		this.sex = sex;
+		this.gender = gender;
 		this.cellphone = cellphone;
 		this.address = address;
 		this.age = age;
@@ -77,11 +77,11 @@ public class Employee {
 	public void setNumber(String number) {
 		this.number = number;
 	}
-	public String getSex() {
-		return sex;
+	public String getGender() {
+		return gender;
 	}
-	public void setSex(String sex) {
-		this.sex = sex;
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	public String getCellphone() {
 		return cellphone;
