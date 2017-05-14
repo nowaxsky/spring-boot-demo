@@ -3,6 +3,10 @@ package io.springdemo.employee;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,15 +20,18 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 	
+	@Autowired
+	private EmployeeRepository employeeRepository;
+	
 	
 	@RequestMapping("/employees")
 	public List<Employee> getAllEmployees() {
 		return employeeService.getAllEmployees();
 	}
 	
-	@RequestMapping("/employees/{number}")
-	public Employee getEmployee(@PathVariable String number) {
-		return employeeService.getEmployee(number);
+	@RequestMapping("/employees/{id}")
+	public Employee getEmployee(@PathVariable String id) {
+		return employeeService.getEmployee(id);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/employees")
@@ -32,29 +39,59 @@ public class EmployeeController {
 		employeeService.addEmployee(employee);
 	}
 	
-	@RequestMapping(method=RequestMethod.PUT, value="/employees/{number}")
-	public void updateEmployee(@PathVariable String number, @RequestBody Employee employee) {
-		employeeService.updateEmployee(number, employee);
+	@RequestMapping(method=RequestMethod.PUT, value="/employees/{id}")
+	public void updateEmployee(@PathVariable String id, @RequestBody Employee employee) {
+		employeeService.updateEmployee(id, employee);
 	}
 	
-	@RequestMapping(method=RequestMethod.DELETE, value="/employees/{number}")
-	public void deleteEmployee(@PathVariable String number) {
-		employeeService.deleteEmployee(number);
+	@RequestMapping(method=RequestMethod.DELETE, value="/employees/{id}")
+	public void deleteEmployee(@PathVariable String id) {
+		employeeService.deleteEmployee(id);
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/employees/search")
-	public List<EmployeeBrief> findByName(@RequestParam(value = "name", defaultValue = "") String name,
-			@RequestParam(value = "number", defaultValue = "") String number) {
+	public List<Object[]> dynamicSearching(@RequestParam(value = "name", defaultValue = "") String name,
+			@RequestParam(value = "id", defaultValue = "") String id) {
 		
-		if("".equals(number)) {
+		if("".equals(id)) {
 			return employeeService.findByName(name);
 		} else if("".equals(name)) {
-			return employeeService.findByNumber(number);
+			return employeeService.findById(id);
 		} else {
-			return employeeService.findByNameAndNumber(name,number);
+			return employeeService.findByNameAndId(name,id);
 		}
+	}/*
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/employees/search")
+	public List<Employee> dynamicSearching(@RequestParam(value = "name", defaultValue = "") String name,
+			@RequestParam(value = "id", defaultValue = "") String id) {
+		return employeeService.test(name, id);
+	}*/
+
+	/*
+	@RequestMapping(method = RequestMethod.GET, value = "/employees/paging")
+	public Page<Employee> getEntryByPageable(@PageableDefault(value = 15, sort = {"id"}, direction = Sort.Direction.DESC) 
+	    Pageable pageable, @RequestParam(value = "id", defaultValue = "") String id) {
+	    return employeeRepository.findAll(pageable);
+	}
+	*//*
+	@RequestMapping(method = RequestMethod.GET, value = "/employees/paging")
+	public List<Employee> getPageSearching ( 
+	     @RequestParam(value = "id", defaultValue = "") String id
+	    , @RequestParam(value = "offset", defaultValue = "") int offset
+	    , @RequestParam(value = "limit", defaultValue = "") int limit
+	    ) {
+	    return employeeService.findByIdPaging(id,offset,limit);
+	}*/
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/employees/paging")
+	public Page<Employee> getPageSearching2 (Pageable pageable
+	    ,@RequestParam(value = "name", defaultValue = "") String name
+	    ,@RequestParam(value = "offset", defaultValue = "") int offset
+		,@RequestParam(value = "limit", defaultValue = "") int limit
+	    ) {
+	    return employeeService.findByNamePaging(name,offset,limit);
 	}
 	
 	
-
 }

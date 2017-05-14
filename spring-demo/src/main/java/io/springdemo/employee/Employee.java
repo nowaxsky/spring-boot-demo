@@ -5,8 +5,12 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedStoredProcedureQueries;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,13 +20,17 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table (name="EMPLOYEE")
+/*@NamedStoredProcedureQuery (name = "dynamicQuery", procedureName = "dynamic_query",
+							parameters={@StoredProcedureParameter(mode = ParameterMode.IN, name = "in_name", type = String.class),
+										@StoredProcedureParameter(mode = ParameterMode.IN, name = "in_id", type = String.class)							
+)*/
+@Table (name="employee")
 public class Employee {
 
 	private String name;
 	
 	@Id
-	private String number;
+	private String id;
 	private String gender;
 	private String cellphone;
 	private String address;
@@ -31,20 +39,20 @@ public class Employee {
 	//@CreationTimestamp
 	@Column(updatable=false)
 	@Temporal(TemporalType.TIME)
-	private Date buildTime;
+	private Date created;
 	
 	//@UpdateTimestamp
 	@Temporal(TemporalType.TIME)
-	private Date lastUpdateTime;
+	private Date updated;
 	
 	@PrePersist
 	protected void onCreate() {
-		lastUpdateTime = buildTime = new Date();
+		updated = created = new Date();
 	}
 
 	@PreUpdate
 	protected void onUpdate() {
-		lastUpdateTime = new Date();
+		updated = new Date();
 	}
 	
 	
@@ -52,16 +60,16 @@ public class Employee {
 		
 	}	
 	
-	public Employee(String name, String number, String gender, String cellphone, String address, int age) {
+	public Employee(String name, String id, String gender, String cellphone, String address, int age) {
 		super();
 		this.name = name;
-		this.number = number;
+		this.id = id;
 		this.gender = gender;
 		this.cellphone = cellphone;
 		this.address = address;
 		this.age = age;
-		//this.buildTime = buildTime;
-		//this.lastUpdateTime = lastUpdateTime;*/
+		//this.created = created;
+		//this.updated = updated;*/
 	}
 	
 	
@@ -71,11 +79,11 @@ public class Employee {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getNumber() {
-		return number;
+	public String getId() {
+		return id;
 	}
-	public void setNumber(String number) {
-		this.number = number;
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getGender() {
 		return gender;
@@ -103,23 +111,13 @@ public class Employee {
 	}
 	
 	
-	public Date getBuildTime() {
-		return buildTime;
+	public Date getCreated() {
+		return created;
 	}
-	
-	/*
-	public void setBuildTime(Date buildTime) {
-		this.buildTime = buildTime;
-	}*/
 
-	public Date getLastUpdateTime() {
-		return lastUpdateTime;
+	public Date getUpdated() {
+		return updated;
 	}
-	
-	/*
-	public void setLastUpdateTime(Date lastUpdateTime) {
-		this.lastUpdateTime = lastUpdateTime;
-	}*/
 	
 	
 }
