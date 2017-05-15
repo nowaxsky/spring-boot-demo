@@ -1,12 +1,10 @@
-package io.springdemo.employee;
+package com.springbootdemo.controller;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,15 +12,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springbootdemo.domain.Employee;
+import com.springbootdemo.service.EmployeeService;
+
+@Controller
 @RestController
 public class EmployeeController {
 	
 	@Autowired
 	private EmployeeService employeeService;
-	
-	@Autowired
-	private EmployeeRepository employeeRepository;
-	
 	
 	@RequestMapping("/employees")
 	public List<Employee> getAllEmployees() {
@@ -49,6 +47,7 @@ public class EmployeeController {
 		employeeService.deleteEmployee(id);
 	}
 	
+	/*
 	@RequestMapping(method = RequestMethod.GET, value = "/employees/search")
 	public List<Object[]> dynamicSearching(@RequestParam(value = "name", defaultValue = "") String name,
 			@RequestParam(value = "id", defaultValue = "") String id) {
@@ -60,13 +59,19 @@ public class EmployeeController {
 		} else {
 			return employeeService.findByNameAndId(name,id);
 		}
-	}/*
+	}*/
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/employees/search")
-	public List<Employee> dynamicSearching(@RequestParam(value = "name", defaultValue = "") String name,
-			@RequestParam(value = "id", defaultValue = "") String id) {
-		return employeeService.test(name, id);
-	}*/
+	public Page<Object[]> getDynamic(@RequestParam(value = "name", defaultValue = "") String name,
+			@RequestParam(value = "id", defaultValue = "") String id,
+			@RequestParam(value = "gender", defaultValue = "") String gender,
+			@RequestParam(value = "cellphone", defaultValue = "") String cellphone,
+			@RequestParam(value = "address", defaultValue = "") String address,
+			@RequestParam(value = "age", defaultValue = "0") int age,
+			@RequestParam(value = "pageix", defaultValue = "0") int pageIx,
+			@RequestParam(value = "pagesize", defaultValue = "10") int pageSize) {
+		return employeeService.dynamicSearch(name, id, gender, cellphone, address, age, pageIx, pageSize);
+	}
 
 	/*
 	@RequestMapping(method = RequestMethod.GET, value = "/employees/paging")
@@ -82,7 +87,7 @@ public class EmployeeController {
 	    , @RequestParam(value = "limit", defaultValue = "") int limit
 	    ) {
 	    return employeeService.findByIdPaging(id,offset,limit);
-	}*/
+	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/employees/paging")
 	public Page<Employee> getPageSearching2 (Pageable pageable
@@ -92,6 +97,9 @@ public class EmployeeController {
 	    ) {
 	    return employeeService.findByNamePaging(name,offset,limit);
 	}
-	
-	
+	@RequestMapping(method = RequestMethod.GET, value = "/employees/search")
+	public List<Employee> dynamicSearching(@RequestParam(value = "name", defaultValue = "") String name,
+			@RequestParam(value = "id", defaultValue = "") String id) {
+		return employeeService.getWhereClause(name, id);
+	}*/
 }

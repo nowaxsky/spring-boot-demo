@@ -1,29 +1,20 @@
-package io.springdemo.employee;
+package com.springbootdemo.domain;
 
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedStoredProcedureQueries;
-import javax.persistence.NamedStoredProcedureQuery;
-import javax.persistence.ParameterMode;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-/*@NamedStoredProcedureQuery (name = "dynamicQuery", procedureName = "dynamic_query",
-							parameters={@StoredProcedureParameter(mode = ParameterMode.IN, name = "in_name", type = String.class),
-										@StoredProcedureParameter(mode = ParameterMode.IN, name = "in_id", type = String.class)							
-)*/
 @Table (name="employee")
 public class Employee {
 
@@ -36,13 +27,13 @@ public class Employee {
 	private String address;
 	private int age;
 	
-	//@CreationTimestamp
+	@CreationTimestamp
 	@Column(updatable=false)
-	@Temporal(TemporalType.TIME)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date created;
 	
-	//@UpdateTimestamp
-	@Temporal(TemporalType.TIME)
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date updated;
 	
 	@PrePersist
