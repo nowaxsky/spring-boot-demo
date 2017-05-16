@@ -10,6 +10,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -17,10 +18,12 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Entity
 @Table (name="employee")
 public class Employee {
-
+	
+	@NotNull(message = "Name can not be null.")
 	private String name;
 	
 	@Id
+	@NotNull(message = "Id can not be null.")
 	private String id;
 	private String gender;
 	private String cellphone;

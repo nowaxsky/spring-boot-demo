@@ -11,6 +11,7 @@ import com.springbootdemo.dao.EmployeeDAO;
 import com.springbootdemo.dao.IEmployeeDAO;
 import com.springbootdemo.domain.Employee;
 import com.springbootdemo.domain.EmployeeRepository;
+import com.springbootdemo.exception.ResourceNotFoundException;
 
 @Service
 public class EmployeeService implements IEmployeeService {
@@ -30,7 +31,16 @@ public class EmployeeService implements IEmployeeService {
 
 	@Override
 	public Employee getEmployee(String id) {
-		return employeeRepository.findOne(id);
+		Employee employee = employeeRepository.findOne(id);
+		
+		if(employee == null) {
+			try {
+				throw new ResourceNotFoundException(id, "Employee not found");
+			} catch (ResourceNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		return employee;
 	}
 
 	@Override

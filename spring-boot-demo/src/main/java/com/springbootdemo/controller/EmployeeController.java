@@ -2,9 +2,15 @@ package com.springbootdemo.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springbootdemo.domain.Employee;
+import com.springbootdemo.exception.ExceptionResponse;
 import com.springbootdemo.service.EmployeeService;
 
 @Controller
@@ -33,12 +40,12 @@ public class EmployeeController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/employees")
-	public void addEmployee(@RequestBody Employee employee) {
+	public void addEmployee(@Valid @RequestBody Employee employee) {
 		employeeService.addEmployee(employee);
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/employees/{id}")
-	public void updateEmployee(@PathVariable String id, @RequestBody Employee employee) {
+	public void updateEmployee(@PathVariable String id, @Valid @RequestBody Employee employee) {
 		employeeService.updateEmployee(id, employee);
 	}
 	
@@ -102,4 +109,5 @@ public class EmployeeController {
 			@RequestParam(value = "id", defaultValue = "") String id) {
 		return employeeService.getWhereClause(name, id);
 	}*/
+
 }
