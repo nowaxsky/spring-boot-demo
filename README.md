@@ -28,12 +28,12 @@ http://localhost:8080/
 <br/>
 e.g. 
   {
-    "name": "Chuck",
-    "id": "9487",
-    "gender": "male",
-    "cellphone": "0987487987",
+    "name": "Susan",
+    "id": "9502",
+    "gender": "female",
+    "cellphone": "0955355655",
     "address": "Taipei",
-    "age": 36
+    "age": 16
   }
 
 #### Update employee (PUT)
@@ -46,7 +46,7 @@ e.g.
     "gender": "male",
     "cellphone": "0987987987",
     "address": "Ilan",
-    "age": 36
+    "age": 18
   }
 
 #### Delete employee (DELETE)
@@ -54,15 +54,15 @@ http://localhost:8080/{No.}
 
 #### Search an employee (GET)
 The default value of each term for searching is empty("").<br/>
-You can search employees in database by using all features.
+You can search employees in database by using all features and use pageix and pagesize to show the result as you want.
 <br/>
 This method will return the brief table with column "name", "id" and "gender". 
 <br/>
-http://localhost:8080/search/?name={Name}&id={No.}&gender={Gebder}&cellphone={Cellphone}&address={Address}&age={number}
+http://localhost:8080/search/?name={Name}&id={No.}&gender={Gender}&cellphone={Cellphone}&address={Address}&age={number}&pageix={Pageix}&pagesize={Size}
 <br/><br/>
 e.g.<br/>
 http://localhost:8080/search/?address=Taipei<br/>
 http://localhost:8080/search/?id=9487<br/>
-http://localhost:8080/search/?gender=male&address=Taipei
+http://localhost:8080/search/?gender=male&address=Taipei&pageix=1&pagesize=3
 
 
