@@ -1,5 +1,5 @@
 package com.springbootdemo.service;
 
-public class EmployeeServiceTest {
+public class EmployeeServiceImplTest {
 
 }

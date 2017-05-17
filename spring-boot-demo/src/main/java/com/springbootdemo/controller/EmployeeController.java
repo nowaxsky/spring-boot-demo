@@ -20,37 +20,72 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.springbootdemo.domain.Employee;
 import com.springbootdemo.exception.ExceptionResponse;
-import com.springbootdemo.service.EmployeeService;
+import com.springbootdemo.exception.ResourceNotFoundException;
+import com.springbootdemo.service.EmployeeServiceImpl;
 
 @Controller
 @RestController
 public class EmployeeController {
 	
 	@Autowired
-	private EmployeeService employeeService;
+	private EmployeeServiceImpl employeeService;
 	
 	@RequestMapping("/employees")
-	public List<Employee> getAllEmployees() {
-		return employeeService.getAllEmployees();
+	public ResponseEntity<List<Employee>> getAllEmployees() {
+		//return employeeService.getAllEmployees();
+		
+		List<Employee> employees = employeeService.getAllEmployees();
+		if(employees.isEmpty()) {
+			new ResourceNotFoundException("Database is empty", "Employee not found");
+		}
+		return new ResponseEntity<List<Employee>>(employees, HttpStatus.OK);
 	}
 	
 	@RequestMapping("/employees/{id}")
-	public Employee getEmployee(@PathVariable String id) {
-		return employeeService.getEmployee(id);
+	public ResponseEntity<Employee> getEmployee(@PathVariable String id) {
+		//return employeeService.getEmployee(id);
+		
+		Employee employee = employeeService.getEmployee(id);
+		if(employee == null) {
+			new ResourceNotFoundException(id, "Employee not found");
+		}
+		return new ResponseEntity<Employee>(employee, HttpStatus.OK);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/employees")
-	public void addEmployee(@Valid @RequestBody Employee employee) {
+	public ResponseEntity<Void> addEmployee(@Valid @RequestBody Employee employee) {
+		//employeeService.addEmployee(employee);
+		//return new ResponseEntity<Void>(HttpStatus.CREATED);
+		
+		if(employeeService.exists(employee)) {
+			new ResourceNotFoundException(employee.getId(), "Employee already exists");
+		}
 		employeeService.addEmployee(employee);
+		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/employees/{id}")
 	public void updateEmployee(@PathVariable String id, @Valid @RequestBody Employee employee) {
+		//employeeService.updateEmployee(id, employee);
+		
+		Employee currentEmployee = employeeService.getEmployee(id);
+		if(currentEmployee == null) {
+			new ResourceNotFoundException(employee.getId(), "Employee not found");
+		}
+		
 		employeeService.updateEmployee(id, employee);
+		
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE, value="/employees/{id}")
 	public void deleteEmployee(@PathVariable String id) {
+		//employeeService.deleteEmployee(id);
+		
+		Employee employee = employeeService.getEmployee(id);
+		if(employee == null) {
+			new ResourceNotFoundException(employee.getId(), "Unable to delete. Employee not found");
+		}
+		
 		employeeService.deleteEmployee(id);
 	}
 	

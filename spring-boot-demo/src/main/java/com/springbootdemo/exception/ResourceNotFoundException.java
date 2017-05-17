@@ -1,6 +1,6 @@
 package com.springbootdemo.exception;
 
-public class ResourceNotFoundException extends Exception/*RuntimeException*/ {
+public class ResourceNotFoundException extends RuntimeException {
 	
 	private String resourceId;
 

@@ -25,7 +25,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootdemo.SpringBootDemoApplication;
 import com.springbootdemo.domain.Employee;
-import com.springbootdemo.service.EmployeeService;
+import com.springbootdemo.service.EmployeeServiceImpl;
 
 
 @RunWith(SpringRunner.class)
@@ -38,7 +38,7 @@ public class EmployeeControllerTest extends EmployeeController{
 	private MockMvc mockMvc;
 	
     @Mock
-    private EmployeeService employeeService;
+    private EmployeeServiceImpl employeeService;
 
     @InjectMocks
     private EmployeeController employeeController;
@@ -81,15 +81,40 @@ public class EmployeeControllerTest extends EmployeeController{
 	@Test
 	public void TestAddEmployee() throws Exception {
 		Employee employee = new Employee("Test", "0000","male","0000000000","Test",-1);
-	    //when(employeeService.exists(employee)).thenReturn(false);
+	    when(employeeService.exists(employee)).thenReturn(false);
 	    doNothing().when(employeeService).addEmployee(employee);
 	    mockMvc.perform(post("/employees")
 	    		.contentType(MediaType.APPLICATION_JSON)
 	            .content(asJsonString(employee)))
-	            .andExpect(status().isCreated())
-	            .andExpect(header().string("location", containsString("http://localhost:8080/employees")));
+	            .andExpect(status().isCreated());
 	    //verify(employeeService, times(1)).exists(employee);
-	    verify(employeeService, times(1)).addEmployee(employee);
+	    //verify(employeeService, times(1)).addEmployee(employee);
+	    //verifyNoMoreInteractions(employeeService);
+	}
+	
+	@Test
+	public void TestUpdateEmployee() throws Exception {
+		Employee employee = new Employee("Test", "9487","male","0000000000","Test",-1);
+	    when(employeeService.getEmployee(employee.getId())).thenReturn(employee);
+	    doNothing().when(employeeService).updateEmployee(employee.getId(),employee);
+	    mockMvc.perform(put("/employees/{id}", employee.getId())
+	    		.contentType(MediaType.APPLICATION_JSON)
+	            .content(asJsonString(employee)))
+	            .andExpect(status().isOk());
+	    //verify(employeeService, times(1)).getEmployee(employee.getId());
+	    //verify(employeeService, times(1)).updateEmployee(employee.getId(),employee);
+	    //verifyNoMoreInteractions(employeeService);
+	}
+	
+	@Test
+	public void TestDeleteEmployee() throws Exception {
+		Employee employee = new Employee("Chuck", "9487","male","0987487987","Taipei",35);
+	    when(employeeService.getEmployee(employee.getId())).thenReturn(employee);
+	    doNothing().when(employeeService).deleteEmployee(employee.getId());
+	    mockMvc.perform(delete("/employees/{id}", employee.getId()))
+	            .andExpect(status().isOk());
+	    verify(employeeService, times(1)).getEmployee(employee.getId());
+	    verify(employeeService, times(1)).deleteEmployee(employee.getId());
 	    verifyNoMoreInteractions(employeeService);
 	}
 	
