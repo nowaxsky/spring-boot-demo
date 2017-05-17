@@ -1,6 +1,6 @@
 # Spring Boot Demo
 This project is an implementation the employee data by using Spring Boot, Hibernate and Spring Data JPA.<br/>
-Built-in database Apache Derby is used to store the data.
+You have to run the script in MySQL first. (/src/main/resources/demodb-start.sql)
 
 ## Scenario
 1. Add employee data to the database
@@ -29,7 +29,7 @@ http://localhost:8080/
 e.g. 
   {
     "name": "Chuck",
-    "number": "9487",
+    "id": "9487",
     "gender": "male",
     "cellphone": "0987487987",
     "address": "Taipei",
@@ -42,7 +42,7 @@ http://localhost:8080/{No.}
 e.g.  
   {
     "name": "Chuck",
-    "number": "9487",
+    "id": "9487",
     "gender": "male",
     "cellphone": "0987987987",
     "address": "Ilan",
@@ -53,15 +53,16 @@ e.g.
 http://localhost:8080/{No.}
 
 #### Search an employee (GET)
-The default value of each term for searching is empty("").
+The default value of each term for searching is empty("").<br/>
+You can search employees in database by using all features.
 <br/>
-This method will return the brief table with column "name", "number" and "gender". 
+This method will return the brief table with column "name", "id" and "gender". 
 <br/>
-http://localhost:8080/search/?name={Name}&number={No.}
+http://localhost:8080/search/?name={Name}&id={No.}&gender={Gebder}&cellphone={Cellphone}&address={Address}&age={number}
 <br/><br/>
 e.g.<br/>
-http://localhost:8080/search/?name=Chuck<br/>
-http://localhost:8080/search/?number=9487<br/>
-http://localhost:8080/search/?name=Chuck&number=9487
+http://localhost:8080/search/?address=Taipei<br/>
+http://localhost:8080/search/?id=9487<br/>
+http://localhost:8080/search/?gender=male&address=Taipei
 
 
