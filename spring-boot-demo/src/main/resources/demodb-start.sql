@@ -2,6 +2,10 @@ DROP DATABASE IF EXISTS demodb;
 CREATE DATABASE IF NOT EXISTS demodb;
 USE demodb;
 
+CREATE USER 'demo'@'localhost' IDENTIFIED BY 'demo';
+GRANT ALL PRIVILEGES ON demodb.* TO 'demo'@'localhost';
+FLUSH PRIVILEGES;
+
 CREATE TABLE employee (
 	name		VARCHAR(20) ,
     id			VARCHAR(20) PRIMARY KEY,
